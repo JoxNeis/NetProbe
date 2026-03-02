@@ -3,7 +3,7 @@
 namespace Model;
 
 require_once("Task.php");
-require_once("../MODULE/config.php");
+require_once("../Module/config.php");
 
 use DateTime;
 use Exception;

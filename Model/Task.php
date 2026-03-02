@@ -2,10 +2,7 @@
 
 namespace Model;
 
-require_once("Payload.php");
-
 use Exception;
-use Model\Payload;
 
 class Task
 {

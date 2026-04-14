@@ -11,7 +11,6 @@ class HttpTask extends Task
 {
 
     #region CONSTANTS
-
     private const METHODS = [
         "GET",
         "POST",
@@ -21,7 +20,6 @@ class HttpTask extends Task
         "HEAD",
         "OPTIONS"
     ];
-
     #endregion
 
 

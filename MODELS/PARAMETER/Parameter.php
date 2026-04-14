@@ -2,9 +2,13 @@
 
 namespace Parameter;
 
+require_once(__DIR__ . "/../ENCODER/EncoderFactory.php");
+require_once(__DIR__ . "/../../VALUES/EncodeType.php");
 require_once(__DIR__ . "/../../VALUES/ParameterDataType.php");
 
 use Exception;
+use Encoder\EncoderFactory;
+use EncodeType;
 use ParameterDataType;
 
 class Parameter
@@ -13,18 +17,20 @@ class Parameter
     private string $key;
     private mixed $value;
     private ParameterDataType $type;
-    private bool $encoded = false;
+    private EncodeType $encoding = EncodeType::NONE;
     #endregion
 
     #region CONSTRUCTOR
     public function __construct(
         string $key,
         mixed $value,
-        ParameterDataType $type
+        ParameterDataType $type,
+        EncodeType $encoding
     ) {
         $this->setKey($key);
         $this->setValue($value);
         $this->setParameterDataType($type);
+        $this->setEncoding($encoding);
     }
     #endregion
 
@@ -44,9 +50,9 @@ class Parameter
         return $this->type;
     }
 
-    public function is_encoded(): bool
+    public function getEncoding(): EncodeType
     {
-        return $this->encoded;
+        return $this->encoding;
     }
     #endregion
 
@@ -54,7 +60,7 @@ class Parameter
     public function setKey(string $key): void
     {
         if ($key === "") {
-            throw new Exception("Parameter key can't be empty");
+            throw new Exception("Parameter\'s key can't be empty");
         }
 
         $this->key = $key;
@@ -63,44 +69,85 @@ class Parameter
     public function setValue(mixed $value): void
     {
         if ($value === null) {
-            throw new Exception("Parameter value can't be null");
+            throw new Exception("Parameter\'s value can't be null");
         }
 
         $this->value = $value;
     }
 
-    public function setParameterDataType(
-        ParameterDataType $type
-    ): void {
+    public function setParameterDataType(ParameterDataType $type): void
+    {
         $this->type = $type;
+    }
+
+    public function setEncoding(EncodeType $encoding): void
+    {
+
+        $this->encoding = $encoding;
+    }
+    #endregion
+
+    #region ENCODE
+    public function encode(): void
+    {
+        if ($this->encoding === EncodeType::NONE) {
+            return;
+        }
+
+        try {
+
+            $encoder = EncoderFactory::create(
+                $this->encoding
+            );
+
+            if ($encoder === null) {
+                throw new Exception(
+                    "Unsupported encoding: "
+                    . $this->encoding->value
+                );
+            }
+
+            if ($this->type === ParameterDataType::FILE) {
+                $this->checkFileIntegrity();
+            }
+
+            $this->value =
+                $encoder->encode(
+                    $this->value
+                );
+
+        } catch (Exception $e) {
+
+            throw new Exception(
+                "Encoding failed for '{$this->key}': "
+                . $e->getMessage()
+            );
+        }
+    }
+
+    private function checkFileIntegrity(): void
+    {
+        if (!is_string($this->value)) {
+            throw new Exception(
+                "File address must be string path"
+            );
+        }
+
+        if (!file_exists($this->value)) {
+            throw new Exception(
+                "File not found: {$this->value}"
+            );
+        }
     }
     #endregion
 
     #region UTILS
-    public function encodeValue(): void
+    public function toArray(): array
     {
-        if ($this->type !== ParameterDataType::FILE) {
-            throw new Exception("Parameter's type is not a FILE.");
-        }
-
-        if (!file_exists($this->value)) {
-            throw new Exception("Parameter's does not exist");
-        }
-
-        $file = file_get_contents($this->value);
-
-        if ($file === false) {
-            throw new Exception("Failed to read file");
-        }
-        $this->value = base64_encode($file);
-        $this->encoded = true;
-    }
-
-    public function toArray(): array{
         return [
-            "key" =>$this->getKey(),
-            "value" =>$this->getValue(),
-            "encoded" =>$this->is_encoded(),
+            "key" => $this->getKey(),
+            "value" => $this->getValue(),
+            "encoding" => $this->getEncoding()->value,
         ];
     }
     #endregion

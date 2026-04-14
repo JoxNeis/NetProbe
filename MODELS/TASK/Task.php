@@ -1,10 +1,10 @@
 <?php
 
-namespace Request;
+namespace Task;
 
 use Exception;
 
-class Request
+class Task
 {
 
     #region FIELDS
@@ -14,7 +14,7 @@ class Request
     #endregion
 
     #region CONSTRUCTOR
-    public function __construct($name = null, $address = null, $description = null, $payload = null)
+    public function __construct($name = null, $address = null, $description = null)
     {
         if ($name !== null) {
             $this->setName($name);

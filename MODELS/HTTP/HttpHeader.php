@@ -1,15 +1,10 @@
 <?php
 
-namespace Model;
+namespace Http;
 
-use Exception;
-
-class Content
+class HttpHeader
 {
     #region FIELDS
-    private string $filetype;
-    private string $key;
-    private mixed $value;
     #endregion
 
     #region CONSTRUCTOR

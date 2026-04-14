@@ -4,10 +4,10 @@ namespace Encoder;
 
 require_once(__DIR__ . "/AbstractEncoder.php");
 
-class HexEncoder extends AbstractEncoder
+class UrlEncoder extends AbstractEncoder
 {
     protected function modifier(mixed $value): string
     {
-        return bin2hex($this->ensureString($value));
+        return rawurlencode($this->ensureString($value));
     }
 }

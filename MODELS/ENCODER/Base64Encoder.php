@@ -1,13 +1,13 @@
 <?php
 
-require_once(__DIR__ . "/Encoder.php");
+namespace Encoder;
 
-use Encoder\Encoder;
+require_once(__DIR__ . "/AbstractEncoder.php");
 
-class Base64Encoder implements Encoder
+class Base64Encoder extends AbstractEncoder
 {
-    public function encode(mixed $value): string
+    protected function modifier(mixed $value): string
     {
-        return base64_encode($value);
+        return base64_encode($this->ensureString($value));
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Http;
+namespace Parameter\Http;
 
 
-require_once(__DIR__ . "/../PARAMETER/Parameter.php");
+require_once(__DIR__ . "/../Parameter.php");
 
 use Parameter\Parameter;
 
-class Http
+class HttpParameter
 {
     #region FIELDS
     private array $parameters;
@@ -30,14 +30,14 @@ class Http
     #region SETTER    
     public function setParameters(array $parameters): void
     {
-        foreach ($parameters as $key => $header) {
-            $this->addParameter($header, $key);
+        foreach ($parameters as $param) {
+            $this->addParameter($param);
         }
     }
 
-    public function addParameter(Parameter $parameter, mixed $key): void
+    public function addParameter(Parameter $parameter): void
     {
-        $this->parameters[$key] = $parameter;
+        $this->parameters[] = $parameter;
     }
     #endregion
 

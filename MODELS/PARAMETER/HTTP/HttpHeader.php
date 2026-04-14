@@ -4,9 +4,9 @@ namespace Http;
 
 require_once(__DIR__ . "/HttpBody.php");
 
-use Http\Http;
+use Parameter\Http\HttpParameter;
 
-class HttpBody extends Http
+class HttpHeaderParameter extends HttpParameter
 {
     #region UTILS
 

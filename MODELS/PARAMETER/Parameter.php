@@ -3,34 +3,31 @@
 namespace Parameter;
 
 require_once(__DIR__ . "/../ENCODER/EncoderFactory.php");
-require_once(__DIR__ . "/../../VALUES/EncodeType.php");
-require_once(__DIR__ . "/../../VALUES/ParameterDataType.php");
+require_once(__DIR__ . "/../../VALUES/PARAMETER/EncodeType.php");
+require_once(__DIR__ . "/../../VALUES/PARAMETER/DataType.php");
 
 use Exception;
 use Encoder\EncoderFactory;
-use EncodeType;
-use ParameterDataType;
+use Values\Parameter\DataType;
+use Values\Parameter\EncodeType;
 
 class Parameter
 {
     #region FIELDS
     private string $key;
     private mixed $value;
-    private ParameterDataType $type;
-    private EncodeType $encoding = EncodeType::NONE;
+    private DataType $type;
     #endregion
 
     #region CONSTRUCTOR
     public function __construct(
         string $key,
         mixed $value,
-        ParameterDataType $type,
-        EncodeType $encoding
+        DataType $type
     ) {
         $this->setKey($key);
         $this->setValue($value);
-        $this->setParameterDataType($type);
-        $this->setEncoding($encoding);
+        $this->setDataType($type);
     }
     #endregion
 
@@ -45,14 +42,9 @@ class Parameter
         return $this->value;
     }
 
-    public function getParameterDataType(): ParameterDataType
+    public function getDataType(): DataType
     {
         return $this->type;
-    }
-
-    public function getEncoding(): EncodeType
-    {
-        return $this->encoding;
     }
     #endregion
 
@@ -75,39 +67,26 @@ class Parameter
         $this->value = $value;
     }
 
-    public function setParameterDataType(ParameterDataType $type): void
+    public function setDataType(DataType $type): void
     {
         $this->type = $type;
     }
 
-    public function setEncoding(EncodeType $encoding): void
-    {
-
-        $this->encoding = $encoding;
-    }
     #endregion
 
     #region ENCODE
-    public function encode(): void
+    public function encode(EncodeType $encoding): void
     {
-        if ($this->encoding === EncodeType::NONE) {
+        if ($encoding === EncodeType::NONE) {
             return;
         }
-
         try {
 
             $encoder = EncoderFactory::create(
-                $this->encoding
+                $encoding
             );
 
-            if ($encoder === null) {
-                throw new Exception(
-                    "Unsupported encoding: "
-                    . $this->encoding->value
-                );
-            }
-
-            if ($this->type === ParameterDataType::FILE) {
+            if ($this->type === DataType::FILE) {
                 $this->checkFileIntegrity();
             }
 
@@ -117,7 +96,6 @@ class Parameter
                 );
 
         } catch (Exception $e) {
-
             throw new Exception(
                 "Encoding failed for '{$this->key}': "
                 . $e->getMessage()
@@ -147,7 +125,7 @@ class Parameter
         return [
             "key" => $this->getKey(),
             "value" => $this->getValue(),
-            "encoding" => $this->getEncoding()->value,
+            "type" => $this->getDataType()->value
         ];
     }
     #endregion

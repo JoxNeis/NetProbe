@@ -1,5 +1,6 @@
 <?php
 
+namespace Values\Parameter;
 enum EncodeType: string
 {
     case NONE = "none";
@@ -8,6 +9,5 @@ enum EncodeType: string
     case BASE64 = "base64";
     case HEX = "hex";
     case URL = "url";
-
     case MULTIPART = "multipart";
 }

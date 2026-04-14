@@ -1,6 +1,7 @@
 <?php
 
-enum ParameterDataType: string
+namespace Values\Parameter;
+enum DataType: string
 {
     // Primitive values
     case TEXT = "text";

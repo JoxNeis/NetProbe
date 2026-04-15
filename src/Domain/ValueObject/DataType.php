@@ -1,6 +1,6 @@
 <?php
 
-namespace Values\Parameter;
+namespace ValueObject;
 enum DataType: string
 {
     // Primitive values

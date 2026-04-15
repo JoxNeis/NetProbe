@@ -1,22 +1,21 @@
 <?php
 
-namespace Parameter\Http;
+namespace Parameter\HttpHolder;
 
 
 require_once(__DIR__ . "/../Parameter.php");
 
 use Parameter\Parameter;
 
-class HttpParameter
+class HttpParameterHolder
 {
     #region FIELDS
-    private array $parameters;
+    protected array $parameters;
     #endregion
 
     #region CONSTRUCTOR
-    public function __construct(array $parameters)
+    public function __construct()
     {
-        $this->setParameters($parameters);
     }
     #endregion
 

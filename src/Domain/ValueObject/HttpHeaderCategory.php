@@ -1,8 +1,8 @@
 <?php
 
-namespace Values\Parameter;
+namespace ValueObject;
 
-enum HttpHeader: string
+enum HttpHeaderCategory: string
 {
     // General
     case ACCEPT = "Accept";

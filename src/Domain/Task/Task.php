@@ -8,13 +8,14 @@ class Task
 {
 
     #region FIELDS
+    private int $id;
     private string $name;
     private string $address;
     private string $description;
     #endregion
 
     #region CONSTRUCTOR
-    public function __construct($name = null, $address = null, $description = null)
+    public function __construct($id = null,$name = null, $address = null, $description = null)
     {
         if ($name !== null) {
             $this->setName($name);
@@ -29,6 +30,9 @@ class Task
     #endregion
 
     #region GETTER
+    public function getId():int{
+        return $this->id;
+    }
     public function getName(): string
     {
         return $this->name;
@@ -44,6 +48,13 @@ class Task
     #endregion
 
     #region SETTER
+    public function setId(int $id){
+        if($id<=0){
+            throw new Exception("Task\'s Id can\'t be lower than zero");
+        }
+        $this->id = $id;
+    }
+    
     public function setName(string $name)
     {
         if ($name === "") {

@@ -6,10 +6,14 @@ require_once(__DIR__ . "/Base64Encoder.php");
 require_once(__DIR__ . "/HexEncoder.php");
 require_once(__DIR__ . "/JsonEncoder.php");
 require_once(__DIR__ . "/UrlEncoder.php");
-require_once(__DIR__ . "/../../VALUES/PARAMETER/EncodeType.php");
+require_once(__DIR__ . "/../ValueObject/EncodeType.php");
 
 use Exception;
-use Values\Parameter\EncodeType;
+use Encoder\Base64Encoder;
+use Encoder\HexEncoder;
+use Encoder\JsonEncoder;
+use Encoder\UrlEncoder;
+use ValueObject\EncodeType;
 
 class EncoderFactory
 {
@@ -20,8 +24,6 @@ class EncoderFactory
 
             EncodeType::BASE64 => new Base64Encoder(),
             EncodeType::HEX => new HexEncoder(),
-            EncodeType::JSON => new JsonEncoder(),
-            EncodeType::URL => new UrlEncoder(),
             default =>
             throw new Exception(
                 "Unsupported encoder type: "

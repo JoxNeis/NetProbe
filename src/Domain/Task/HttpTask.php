@@ -29,7 +29,7 @@ class HttpTask extends Task
 
         $this->headers = new HttpHeaderHolder();
         $this->queries = new HttpQueryHolder();
-        $this->bodies  = new HttpBodyHolder();
+        $this->bodies = new HttpBodyHolder();
     }
     #endregion
 
@@ -81,6 +81,21 @@ class HttpTask extends Task
     public function addBody(Parameter $body): void
     {
         $this->bodies->addParameter($body);
+    }
+    #endregion
+
+    #region CREATOR
+    public function createHeaders(): array
+    {
+        return $this->headers->toHeader();
+    }
+    public function createQueries(): string
+    {
+        return $this->queries->toQuery();
+    }
+    public function createBodies(): array
+    {
+        return $this->bodies->toBodies();
     }
     #endregion
 

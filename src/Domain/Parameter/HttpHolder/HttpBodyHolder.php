@@ -24,13 +24,13 @@ class HttpBodyHolder extends HttpParameterHolder
         parent::addParameter($parameter);
     }
 
-    public function toBody(EncodeType $encoding)
+    public function toBodies()
     {
         $data = [];
 
         foreach (parent::getParameters() as $parameter) {
 
-            $data[$parameter->getKey()] = $parameter->encode($encoding);
+            $data[$parameter->getKey()] = $parameter;
         }
 
         return $data;

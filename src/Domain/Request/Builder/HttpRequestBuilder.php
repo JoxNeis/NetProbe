@@ -7,18 +7,20 @@ require_once(__DIR__ . "/../../Task/HttpTask.php");
 require_once(__DIR__ . "/../../Encoder/EncoderFactory.php");
 require_once(__DIR__ . "/../../ValueObject/EncodeType.php");
 require_once(__DIR__ . "/../../ValueObject/DataType.php");
+require_once(__DIR__ . "/../../ValueObject/HttpRequestMethod.php");
 
 use Exception;
 use Request\HttpRequest;
 use Task\HttpTask;
 use Encoder\EncoderFactory;
 use ValueObject\EncodeType;
+use ValueObject\HttpRequestMethod;
 use ValueObject\DataType;
 
 class HttpRequestBuilder
 {
     #region FIELDS
-    private string      $method      = 'GET';
+    private HttpRequestMethod $method = HttpRequestMethod::GET;
     private string      $url         = '';
     private array       $headers     = [];
     private array       $body        = [];
@@ -26,20 +28,13 @@ class HttpRequestBuilder
     private ?HttpTask   $task        = null;
     #endregion
 
-    #region FLUENT SETTERS
-
-    /** Set HTTP method (GET, POST, PUT, PATCH, DELETE, …). */
-    public function withMethod(string $method): static
+    #region SETTERS
+    public function withMethod(HttpRequestMethod $method): static
     {
-        $normalized = strtoupper(trim($method));
-        if ($normalized === '') {
-            throw new Exception("HTTP method cannot be empty.");
-        }
-        $this->method = $normalized;
+        $this->method = $method;
         return $this;
     }
 
-    /** Override the target URL (defaults to task address when built from task). */
     public function withUrl(string $url): static
     {
         $this->url = $url;

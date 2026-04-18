@@ -2,11 +2,13 @@
 
 namespace Request;
 
+use ValueObject\HttpRequestMethod;
+
 class HttpRequest
 {
     #region FIELDS
     private string $url;
-    private string $method;
+    private HttpRequestMethod $method;
     private array  $headers;
     private array  $body;
     private string $queryString;
@@ -15,7 +17,7 @@ class HttpRequest
     #region CONSTRUCTOR
     public function __construct(
         string $url,
-        string $method,
+        HttpRequestMethod $method,
         array  $headers,
         array  $body,
         string $queryString
@@ -34,7 +36,7 @@ class HttpRequest
         return $this->url;
     }
 
-    public function getMethod(): string
+    public function getMethod(): HttpRequestMethod
     {
         return $this->method;
     }

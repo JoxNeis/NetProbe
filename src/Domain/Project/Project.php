@@ -2,18 +2,16 @@
 
 namespace Project;
 
+require_once(__DIR__ . "/../Task/Task.php");
+
+use Task\Task;
 use DateTime;
 
 class Project
 {
     #region FIELDS
-    
-    // Recommended additions
-    private ?int $id = null;
-    private string $status = 'pending'; // e.g., 'pending', 'active', 'completed', 'archived'
-    private ?DateTime $dueDate = null;
 
-    // Improved existing fields
+    private ?int $id = null;
     private string $name;
     private string $slug;
     private ?string $description = null;
@@ -24,32 +22,53 @@ class Project
 
     #endregion
 
-    /**
-     * Constructor to ensure required fields are populated upon creation.
-     */
-    public function __construct(string $name, string $slug)
+    public function __construct(int $id, string $name, string $description, string $slug)
     {
-        $this->name = $name;
-        $this->slug = $slug;
-        $this->createdAt = new DateTime(); // Automatically set creation time
+        $this->setId($id);
+        $this->setName($name);
+        $this->setDescription($description);
+        $this->makeSlug();
+        $this->createdAt = new DateTime();
     }
 
-    #region GETTERS & SETTERS
-
+    #region GETTERS
     public function getId(): ?int
     {
         return $this->id;
     }
+    public function getName(): string
+    {
+        return $this->name;
+    }
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+    public function getLastAccessedAt(): ?DateTime
+    {
+        return $this->lastAccessedAt;
+    }
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+    #endregion
+
+    #region SETTER
     public function setId(?int $id): self
     {
         $this->id = $id;
         return $this;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     public function setName(string $name): self
@@ -58,42 +77,17 @@ class Project
         return $this;
     }
 
-    public function getSlug(): string
-    {
-        return $this->slug;
-    }
-
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
 
     public function setDescription(?string $description): self
     {
         $this->description = $description;
         return $this;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    public function getCreatedAt(): DateTime
-    {
-        return $this->createdAt;
     }
 
     public function setCreatedAt(DateTime $createdAt): self
@@ -102,10 +96,6 @@ class Project
         return $this;
     }
 
-    public function getLastAccessedAt(): ?DateTime
-    {
-        return $this->lastAccessedAt;
-    }
 
     public function setLastAccessedAt(?DateTime $lastAccessedAt): self
     {
@@ -113,21 +103,6 @@ class Project
         return $this;
     }
 
-    public function getDueDate(): ?DateTime
-    {
-        return $this->dueDate;
-    }
-
-    public function setDueDate(?DateTime $dueDate): self
-    {
-        $this->dueDate = $dueDate;
-        return $this;
-    }
-
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
 
     public function setAddress(?string $address): self
     {
@@ -142,18 +117,32 @@ class Project
 
     public function setTasks(array $tasks): self
     {
-        $this->tasks = $tasks;
+        foreach ($tasks as $task) {
+            $this->addTask($task);
+        }
         return $this;
     }
 
-    /**
-     * Helper method to easily add a single task.
-     */
-    public function addTask(string $task): self
+    public function addTask(Task $task): self
     {
         $this->tasks[] = $task;
         return $this;
     }
+    #endregion
 
+    #region UTILS
+    public function makeSlug()
+    {
+        $text = $this->name;
+        $text = strtolower(trim($text));
+        $text = preg_replace('/[^a-z0-9\s-]/', '', $text);
+        $text = preg_replace('/\s+/', '-', $text);
+        $text = preg_replace('/-+/', '-', $text);
+        $this->slug = $text;
+    }
+
+    public function toArray(){
+        
+    }
     #endregion
 }

@@ -24,7 +24,7 @@ class HttpBodyHolder extends HttpParameterHolder
         parent::addParameter($parameter);
     }
 
-    public function toBodies()
+    public function toBody()
     {
         $data = [];
 

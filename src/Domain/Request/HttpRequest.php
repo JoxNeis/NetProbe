@@ -7,7 +7,7 @@ use ValueObject\HttpRequestMethod;
 class HttpRequest
 {
     #region FIELDS
-    private string $url;
+    private string $address;
     private HttpRequestMethod $method;
     private array  $headers;
     private array  $body;
@@ -16,13 +16,13 @@ class HttpRequest
 
     #region CONSTRUCTOR
     public function __construct(
-        string $url,
+        string $address,
         HttpRequestMethod $method,
         array  $headers,
         array  $body,
         string $queryString
     ) {
-        $this->url         = $url;
+        $this->address         = $address;
         $this->method      = $method;
         $this->headers     = $headers;
         $this->body        = $body;
@@ -31,9 +31,9 @@ class HttpRequest
     #endregion
 
     #region GETTER
-    public function getUrl(): string
+    public function getaddress(): string
     {
-        return $this->url;
+        return $this->address;
     }
 
     public function getMethod(): HttpRequestMethod
@@ -56,15 +56,13 @@ class HttpRequest
         return $this->queryString;
     }
 
-    /** Resolved URL with query string appended when present. */
-    public function getFullUrl(): string
+    public function getFulladdress(): string
     {
         if ($this->queryString === '') {
-            return $this->url;
+            return $this->address;
         }
-
-        $separator = str_contains($this->url, '?') ? '&' : '?';
-        return $this->url . $separator . $this->queryString;
+        $separator = str_contains($this->address, '?') ? '&' : '?';
+        return $this->address . $separator . $this->queryString;
     }
     #endregion
 
@@ -72,7 +70,7 @@ class HttpRequest
     public function toArray(): array
     {
         return [
-            'url'         => $this->getFullUrl(),
+            'address'     => $this->getAddress(),
             'method'      => $this->method,
             'headers'     => $this->headers,
             'body'        => $this->body,

@@ -13,20 +13,22 @@ use Parameter\Parameter;
 use Parameter\HttpHolder\HttpHeaderHolder;
 use Parameter\HttpHolder\HttpBodyHolder;
 use Parameter\HttpHolder\HttpQueryHolder;
+use ValueObject\HttpRequestMethod;
 
 class HttpTask extends Task
 {
     #region FIELDS
+    private HttpRequestMethod $method;
     private HttpHeaderHolder $headers;
     private HttpQueryHolder $queries;
     private HttpBodyHolder $bodies;
     #endregion
 
     #region CONSTRUCTOR
-    public function __construct($id, $name, $address, $description)
+    public function __construct(int $id,string $name,string $address,string $description,HttpRequestMethod $method)
     {
         parent::__construct($id, $name, $address, $description);
-
+        $this->setMethod($method);
         $this->headers = new HttpHeaderHolder();
         $this->queries = new HttpQueryHolder();
         $this->bodies = new HttpBodyHolder();
@@ -34,6 +36,9 @@ class HttpTask extends Task
     #endregion
 
     #region GETTER
+    public function getMethod():HttpRequestMethod{
+        return $this->method;
+    }
     public function getHeaders(): HttpHeaderHolder
     {
         return $this->headers;
@@ -51,6 +56,10 @@ class HttpTask extends Task
     #endregion
 
     #region SETTER
+    public function setMethod(HttpRequestMethod $method): self{
+        $this->method = $method;
+        return $this;
+    }
     public function setHeaders(HttpHeaderHolder $headers): void
     {
         $this->headers = $headers;
@@ -95,7 +104,7 @@ class HttpTask extends Task
     }
     public function createBodies(): array
     {
-        return $this->bodies->toBodies();
+        return $this->bodies->toBody();
     }
     #endregion
 

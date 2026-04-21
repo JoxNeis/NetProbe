@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NetProbe - Projects</title>
+    <script src="https://code.jquery.com/jquery-4.0.0.js"
+        integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
+    <script src="../script/tab.js"></script>
 </head>
 
 <body>
@@ -38,21 +41,11 @@
         </section>
         <section class="parameter">
             <nav class="tabs">
-                <a href="?t='header'">Header</a>
-                <a href="?t='query'">Query</a>
-                <a href="?t='body'">Body</a>
+                <a href="?t=header">Header</a>
+                <a href="?t=query">Query</a>
+                <a href="?t=body">Body</a>
             </nav>
-            <section id="header">
-                
-            </section>
-            <section id="query">
-                
-            </section>
-            <section id="body">
-                
-            </section>
         </section>
     </main>
 </body>
-
 </html>

@@ -7,16 +7,19 @@ require_once(__DIR__ . "/../ValueObject/DataType.php");
 use Exception;
 use Encoder\EncoderFactory;
 use ValueObject\DataType;
-use ValueObject\EncodeType;
+use ValueObject\Transformer\HashType;
+use ValueObject\Transformer\EncodeType;
+use ValueObject\Transformer\EncryptType;
 
 class Parameter
 {
     #region FIELDS
     private mixed $key;
     private mixed $value;
-    private string $encoded_value;
-    private string $hashed_value;
-    private string $encrypted_value;
+    private string $modified_value;
+    private HashType $hash_type;
+    private EncodeType $encode_type;
+    private EncryptType $encrypt_type;
     private DataType $type;
     #endregion
 
@@ -71,6 +74,10 @@ class Parameter
     {
         $this->type = $type;
     }
+
+    #endregion
+
+    #region TRANSFORMER
 
     #endregion
 

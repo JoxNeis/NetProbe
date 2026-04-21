@@ -8,7 +8,6 @@ enum EncodeType: string
     case BASE64 = 'base64';
     case BASE64_URL = 'base64_url';
     case HEX = 'hex';
-    case BINARY = 'binary';
     case URL = 'url';
     case RAW_URL = 'raw_url'; 
     case HTML_SPECIAL = 'html_special'; 

@@ -7,6 +7,7 @@ require_once(__DIR__ . "/../HttpRequest.php");
 use Exception;
 use CurlHandle;
 use Request\HttpRequest;
+use Response\HttpResponse;
 use ValueObject\HttpRequestMethod;
 
 class HttpRequestRunner
@@ -55,7 +56,7 @@ class HttpRequestRunner
      *
      * @throws Exception on cURL initialisation failure or transport error.
      */
-    public function run(HttpRequest $request): array
+    public function run(HttpRequest $request): HttpResponse
     {
         $ch = curl_init();
         if ($ch === false) {
@@ -90,7 +91,7 @@ class HttpRequestRunner
         curl_setopt($ch, CURLOPT_MAXREDIRS, $this->maxRedirects);
 
         match ($method) {
-            HttpRequestMethod::GET => null, // default
+            HttpRequestMethod::GET => null,
             HttpRequestMethod::POST => $this->applyPost($ch, $request),
             HttpRequestMethod::PUT => $this->applyPut($ch, $request),
             HttpRequestMethod::PATCH => $this->applyPatch($ch, $request),
@@ -98,6 +99,7 @@ class HttpRequestRunner
             HttpRequestMethod::HEAD => curl_setopt($ch, CURLOPT_NOBODY, true),
             default => $this->applyCustomMethod($ch, $method, $request),
         };
+
 
         $headers = $request->getHeaders();
         if (!empty($headers)) {
@@ -162,7 +164,7 @@ class HttpRequestRunner
             : json_encode($body, JSON_UNESCAPED_UNICODE);
     }
 
-    private function execute(\CurlHandle $ch): array
+    private function execute(\CurlHandle $ch): HttpResponse
     {
         $raw = curl_exec($ch);
 
@@ -176,13 +178,7 @@ class HttpRequestRunner
         $headerSize = $info['header_size'];
         $rawHeaders = substr($raw, 0, $headerSize);
         $body = substr($raw, $headerSize);
-
-        return [
-            'status' => (int) $info['http_code'],
-            'headers' => $this->parseHeaders($rawHeaders),
-            'body' => $body,
-            'info' => $info,
-        ];
+        return new HttpResponse($info['http_code'],$this->parseHeaders($rawHeaders),$body,$info);
     }
 
     private function parseHeaders(string $raw): array

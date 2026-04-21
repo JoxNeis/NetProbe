@@ -9,18 +9,11 @@ require_once(__DIR__ . "/../../ValueObject/EncodeType.php");
 require_once(__DIR__ . "/../../ValueObject/DataType.php");
 require_once(__DIR__ . "/../../ValueObject/HttpRequestMethod.php");
 
-use Exception;
-use Request\HttpRequest;
 use Task\HttpTask;
-use Encoder\EncoderFactory;
-use ValueObject\EncodeType;
-use ValueObject\HttpRequestMethod;
-use ValueObject\DataType;
+use Request\HttpRequest;
 
 class HttpRequestBuilder
 {
-
-
     #region BUILD
     /**
      */
@@ -31,7 +24,7 @@ class HttpRequestBuilder
         $headers = $task->createHeaders();
         $queryString = $task->createQueries();
         $body = $task->createBodies();
-        return new HttpRequest($url, $task->getMethod(), $headers, $body, $queryString);
+        return new HttpRequest($url, $method, $headers, $body, $queryString);
     }
     #endregion
 }

@@ -1,0 +1,188 @@
+:root {
+  --bg-base: #ffffff;
+  --bg-panel: #f7f7f7;
+  --bg-input: #ffffff;
+  --text-main: #222222;
+  --text-light: #555555;
+  --accent: #0066cc;
+  --accent-hover: #004c99;
+  --danger: #e53935;
+  --danger-hover: #c62828;
+
+  --success: #43a047;
+  --success-hover: #2e7d32;
+
+  /* Borders */
+  --border: #e0e0e0;
+
+  /* Layout */
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+
+/* Global Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  /* Frutiger Stack */
+  font-family:
+    "Frutiger",
+    "Frutiger LT Std",
+    "Segoe UI",
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+}
+
+
+/* Body */
+body {
+  background: var(--bg-base);
+  color: var(--text-main);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+
+/* Panels / Cards */
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+
+/* Headings */
+h1, h2, h3 {
+  color: var(--text-main);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-size: 26px;
+}
+
+h2 {
+  font-size: 22px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+
+/* Inputs */
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 10px 12px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background: var(--bg-input);
+  color: var(--text-main);
+
+  font-size: 14px;
+  transition: border 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+
+/* Buttons */
+button {
+  padding: 10px 16px;
+
+  border: none;
+  border-radius: var(--radius);
+
+  background: var(--accent);
+  color: white;
+
+  font-weight: 500;
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: var(--accent-hover);
+}
+
+
+/* Danger Button */
+button.danger {
+  background: var(--danger);
+}
+
+button.danger:hover {
+  background: var(--danger-hover);
+}
+
+
+/* Success Button */
+button.success {
+  background: var(--success);
+}
+
+button.success:hover {
+  background: var(--success-hover);
+}
+
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+th {
+  background: #fafafa;
+  font-weight: 600;
+}
+
+
+/* Utility */
+.flex {
+  display: flex;
+  gap: 10px;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.center {
+  align-items: center;
+}

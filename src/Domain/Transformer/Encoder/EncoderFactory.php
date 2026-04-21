@@ -6,7 +6,6 @@ require_once(__DIR__ . "/NoneEncoder.php");
 require_once(__DIR__ . "/Base64Encoder.php");
 require_once(__DIR__ . "/Base64UrlEncoder.php");
 require_once(__DIR__ . "/HexEncoder.php");
-require_once(__DIR__ . "/BinaryEncoder.php");
 require_once(__DIR__ . "/UrlEncoder.php");
 require_once(__DIR__ . "/RawUrlEncoder.php");
 require_once(__DIR__ . "/HtmlSpecialEncoder.php");
@@ -23,14 +22,13 @@ use ValueObject\Transformer\EncodeType;
 class EncoderFactory
 {
     #region FACTORY
-    public static function create(EncodeType $type): Encoder
+    public static function create(EncodeType $type): AbstractEncoder
     {
         return match ($type) {
             EncodeType::NONE              => new NoneEncoder(),
             EncodeType::BASE64            => new Base64Encoder(),
             EncodeType::BASE64_URL        => new Base64UrlEncoder(),
             EncodeType::HEX              => new HexEncoder(),
-            EncodeType::BINARY            => new BinaryEncoder(),
             EncodeType::URL              => new UrlEncoder(),
             EncodeType::RAW_URL          => new RawUrlEncoder(),
             EncodeType::HTML_SPECIAL      => new HtmlSpecialEncoder(),

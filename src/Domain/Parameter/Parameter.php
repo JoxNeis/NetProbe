@@ -14,6 +14,9 @@ class Parameter
     #region FIELDS
     private mixed $key;
     private mixed $value;
+    private string $encoded_value;
+    private string $hashed_value;
+    private string $encrypted_value;
     private DataType $type;
     #endregion
 

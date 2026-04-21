@@ -1,13 +1,12 @@
 <?php
 
-namespace Transformer\Encoder;
+namespace Transformer\Hasher;
 
-use Exception;
 use Transformer\Transformer;
 
-abstract class AbstractEncoder extends Transformer
+abstract class AbstractHasher extends Transformer
 {
-    public function encode(mixed $value): string
+    public function hash(mixed $value): string
     {
         if ($this->isFile($value)) {
             $value = $this->loadFile($value);

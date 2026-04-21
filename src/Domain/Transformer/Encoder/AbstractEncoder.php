@@ -1,6 +1,6 @@
 <?php
 
-namespace Encoder;
+namespace Transformer\Encoder;
 
 require_once(__DIR__ . "/Encoder.php");
 

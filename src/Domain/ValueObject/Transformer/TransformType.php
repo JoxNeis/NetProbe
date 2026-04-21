@@ -1,6 +1,6 @@
 <?php
 
-namespace ValueObject;
+namespace ValueObject\Transformer;
 
 enum TransformType:string{
     case ENCODE = "ENCODE";

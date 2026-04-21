@@ -1,19 +1,15 @@
 <?php
 
-namespace Encoder;
+namespace Transformer\Encoder;
 
-require_once(__DIR__ . "/Base64Encoder.php");
 require_once(__DIR__ . "/HexEncoder.php");
-require_once(__DIR__ . "/JsonEncoder.php");
-require_once(__DIR__ . "/UrlEncoder.php");
+require_once(__DIR__ . "/Base64Encoder.php");
 require_once(__DIR__ . "/../ValueObject/EncodeType.php");
 
 use Exception;
-use Encoder\Base64Encoder;
-use Encoder\HexEncoder;
-use Encoder\JsonEncoder;
-use Encoder\UrlEncoder;
-use ValueObject\EncodeType;
+use Transformer\Encoder\HexEncoder;
+use Transformer\Encoder\Base64Encoder;
+use ValueObject\Transformer\EncodeType;
 
 class EncoderFactory
 {
@@ -21,7 +17,6 @@ class EncoderFactory
     public static function create(EncodeType $type): Encoder
     {
         return match ($type) {
-
             EncodeType::BASE64 => new Base64Encoder(),
             EncodeType::HEX => new HexEncoder(),
             default =>
@@ -31,6 +26,5 @@ class EncoderFactory
             )
         };
     }
-
     #endregion
 }

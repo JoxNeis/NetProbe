@@ -1,6 +1,6 @@
 <?php
 
-namespace Encoder;
+namespace Transformer\Encoder;
 
 interface Encoder
 {

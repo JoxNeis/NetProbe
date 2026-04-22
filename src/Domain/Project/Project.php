@@ -22,7 +22,7 @@ class Project
 
     #endregion
 
-    public function __construct(int $id, string $name, string $description, string $slug)
+    public function __construct(int $id, string $name, string $description)
     {
         $this->setId($id);
         $this->setName($name);

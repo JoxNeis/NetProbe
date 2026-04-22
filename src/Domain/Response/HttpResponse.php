@@ -53,16 +53,10 @@ class HttpResponse
     }
     public function setHeader(array $header)
     {
-        if (empty($header)) {
-            throw new Exception("Http Response\'s Header can\'t be empty");
-        }
         $this->header = $header;
     }
     public function setBody(string $body)
     {
-        if (empty($body)) {
-            throw new Exception("Http Response\'s Body can\'t be empty");
-        }
         $this->body = $body;
     }
     public function setInfo(array $info)

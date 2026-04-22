@@ -10,6 +10,7 @@ class Task
     #region FIELDS
     private int $id;
     private string $name;
+    private string $slug;
     private string $address;
     private string $description;
     #endregion
@@ -17,6 +18,9 @@ class Task
     #region CONSTRUCTOR
     public function __construct($id = null,$name = null, $address = null, $description = null)
     {
+        if ($id !== null) {
+            $this->setId($id);
+        }
         if ($name !== null) {
             $this->setName($name);
         }

@@ -31,7 +31,7 @@ class HttpRequest
     #endregion
 
     #region GETTER
-    public function getaddress(): string
+    public function getAddress(): string
     {
         return $this->address;
     }

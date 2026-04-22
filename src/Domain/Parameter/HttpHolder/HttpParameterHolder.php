@@ -10,7 +10,7 @@ use Parameter\Parameter;
 class HttpParameterHolder
 {
     #region FIELDS
-    protected array $parameters;
+    protected array $parameters = [];
     #endregion
 
     #region CONSTRUCTOR

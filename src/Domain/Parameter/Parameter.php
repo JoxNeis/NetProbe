@@ -13,6 +13,7 @@ use ValueObject\DataType;
 use Transformer\Encoder\EncoderFactory;
 use Transformer\Hasher\HasherFactory;
 use Transformer\Encryptor\EncryptorFactory;
+use Transformer\TransformStep;
 use ValueObject\Transformer\HashType;
 use ValueObject\Transformer\EncodeType;
 use ValueObject\Transformer\EncryptType;

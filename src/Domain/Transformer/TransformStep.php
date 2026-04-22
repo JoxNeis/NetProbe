@@ -1,6 +1,6 @@
 <?php
 
-namespace Parameter;
+namespace Transformer;
 
 use ValueObject\Transformer\EncodeType;
 use ValueObject\Transformer\HashType;

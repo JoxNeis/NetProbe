@@ -4,7 +4,6 @@ namespace Request\Builder;
 
 require_once(__DIR__ . "/../HttpRequest.php");
 require_once(__DIR__ . "/../../Task/HttpTask.php");
-require_once(__DIR__ . "/../../Encoder/EncoderFactory.php");
 require_once(__DIR__ . "/../../ValueObject/EncodeType.php");
 require_once(__DIR__ . "/../../ValueObject/DataType.php");
 require_once(__DIR__ . "/../../ValueObject/HttpRequestMethod.php");

@@ -2,7 +2,6 @@
  
 namespace Transformer\Encoder;
  
-require_once(__DIR__ . "/NoneEncoder.php");
 require_once(__DIR__ . "/Base64Encoder.php");
 require_once(__DIR__ . "/Base64UrlEncoder.php");
 require_once(__DIR__ . "/HexEncoder.php");
@@ -25,7 +24,6 @@ class EncoderFactory
     public static function create(EncodeType $type): AbstractEncoder
     {
         return match ($type) {
-            EncodeType::NONE              => new NoneEncoder(),
             EncodeType::BASE64            => new Base64Encoder(),
             EncodeType::BASE64_URL        => new Base64UrlEncoder(),
             EncodeType::HEX              => new HexEncoder(),

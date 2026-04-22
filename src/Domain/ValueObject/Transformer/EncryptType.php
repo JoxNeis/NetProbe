@@ -4,7 +4,6 @@ namespace ValueObject\Transformer;
 
 enum EncryptType: string
 {
-    case NONE = 'none';
     case AES_128_CBC = 'aes-128-cbc';
     case AES_192_CBC = 'aes-192-cbc';
     case AES_256_CBC = 'aes-256-cbc';

@@ -4,7 +4,6 @@ namespace ValueObject\Transformer;
 
 enum HashType: string
 {
-    case NONE = 'none';
     case SHA256 = 'sha256';
     case SHA384 = 'sha384';
     case SHA512 = 'sha512';

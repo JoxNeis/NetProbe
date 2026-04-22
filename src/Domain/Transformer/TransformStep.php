@@ -15,7 +15,7 @@ class TransformStep
         EncodeType|HashType|EncryptType $type,
         ?string $encryptionKey = null
     ) {
-        if ($type instanceof EncryptType && $type !== EncryptType::NONE && $encryptionKey === null) {
+        if ($type instanceof EncryptType && $encryptionKey === null) {
             throw new \InvalidArgumentException(
                 "Encryption step requires an encryption key."
             );

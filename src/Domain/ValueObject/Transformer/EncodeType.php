@@ -4,7 +4,6 @@ namespace ValueObject\Transformer;
 
 enum EncodeType: string
 {
-    case NONE = 'none';
     case BASE64 = 'base64';
     case BASE64_URL = 'base64_url';
     case HEX = 'hex';

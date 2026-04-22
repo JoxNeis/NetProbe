@@ -2,7 +2,6 @@
 
 namespace Transformer\Hasher;
 
-require_once(__DIR__ . "/NoneHasher.php");
 require_once(__DIR__ . "/Sha256Hasher.php");
 require_once(__DIR__ . "/Sha384Hasher.php");
 require_once(__DIR__ . "/Sha512Hasher.php");
@@ -33,7 +32,6 @@ class HasherFactory
     public static function create(HashType $type): AbstractHasher
     {
         return match ($type) {
-            HashType::NONE        => new NoneHasher(),
             HashType::SHA256      => new Sha256Hasher(),
             HashType::SHA384      => new Sha384Hasher(),
             HashType::SHA512      => new Sha512Hasher(),

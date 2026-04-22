@@ -24,14 +24,5 @@ class HttpBodyHolder extends HttpParameterHolder
         parent::addParameter($parameter);
     }
 
-    public function toBody()
-    {
-        $data = [];
-        foreach (parent::getParameters() as $parameter) {
-
-            $data[$parameter->getKey()] = $parameter->getModifiedValue();
-        }
-        return $data;
-    }
     #endregion
 }

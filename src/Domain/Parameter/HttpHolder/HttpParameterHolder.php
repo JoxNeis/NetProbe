@@ -36,7 +36,7 @@ class HttpParameterHolder
 
     public function addParameter(Parameter $parameter): void
     {
-        $this->parameters[] = $parameter;
+        $this->parameters[$parameter->getKey()] = $parameter;
     }
     #endregion
 

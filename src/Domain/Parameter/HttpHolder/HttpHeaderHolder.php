@@ -9,11 +9,27 @@ use InvalidArgumentException;
 use ValueObject\HttpHeaderCategory;
 use Parameter\Parameter;
 use Parameter\HttpHolder\HttpParameterHolder;
+use ValueObject\Http\HttpBodyType;
 
 class HttpHeaderHolder extends HttpParameterHolder
 {
     #region UTILS
+    public function setBodyType(Parameter $parameter)
+    {
+        if (!($parameter->getKey() == HttpHeaderCategory::CONTENT_TYPE)) {
+            throw new InvalidArgumentException(
+                "Http Header Parameter key must be HttpHeaderCategory::CONTENT_TYPE"
+            );
+        }
 
+        if (!($parameter->getValue() instanceof HttpBodyType)) {
+            throw new InvalidArgumentException(
+                "Http Header Parameter value must be instance of HttpBodyType"
+            );
+        }
+
+        parent::addParameter($parameter);
+    }
     public function addParameter(Parameter $parameter): void
     {
         if (!($parameter->getKey() instanceof HttpHeaderCategory)) {
@@ -28,21 +44,12 @@ class HttpHeaderHolder extends HttpParameterHolder
             );
         }
 
-        parent::addParameter($parameter);
-    }
-
-    public function toHeader(): array
-    {
-        $header = [];
-
-        foreach (parent::getParameters() as $parameter) {
-            $header[] =
-                $parameter->getKey()->value .
-                ": " .
-                $parameter->getValue();
+        if ($parameter->getKey() == HttpHeaderCategory::CONTENT_TYPE || $parameter->getValue() instanceof HttpBodyType) {
+            throw new InvalidArgumentException(
+                "Use setBodyType() function for setting Http Content-Type header"
+            );
         }
-
-        return $header;
+        parent::addParameter($parameter);
     }
     #endregion
 }

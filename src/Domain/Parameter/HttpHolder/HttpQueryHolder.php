@@ -11,7 +11,6 @@ use Parameter\HttpHolder\HttpParameterHolder;
 class HttpQueryHolder extends HttpParameterHolder
 {
     #region UTILS
-
     public function addParameter(Parameter $parameter): void
     {
         $key = $parameter->getKey();
@@ -31,20 +30,5 @@ class HttpQueryHolder extends HttpParameterHolder
 
         parent::addParameter($parameter);
     }
-
-    public function toQuery(): string
-    {
-        $queryArray = [];
-
-        foreach (parent::getParameters() as $parameter) {
-
-            $queryArray[
-                $parameter->getKey()
-            ] = $parameter->getValue();
-        }
-
-        return http_build_query($queryArray);
-    }
-
     #endregion
 }

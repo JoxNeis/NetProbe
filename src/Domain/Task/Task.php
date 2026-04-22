@@ -8,7 +8,6 @@ class Task
 {
 
     #region FIELDS
-    private int $id;
     private string $name;
     private string $slug;
     private string $address;
@@ -16,13 +15,11 @@ class Task
     #endregion
 
     #region CONSTRUCTOR
-    public function __construct($id = null,$name = null, $address = null, $description = null)
+    public function __construct($name = null, $address = null, $description = null)
     {
-        if ($id !== null) {
-            $this->setId($id);
-        }
         if ($name !== null) {
             $this->setName($name);
+            $this->makeSlug();
         }
         if ($address !== null) {
             $this->setAddress($address);
@@ -34,8 +31,9 @@ class Task
     #endregion
 
     #region GETTER
-    public function getId():int{
-        return $this->id;
+    public function getSlug(): string
+    {
+        return $this->slug;
     }
     public function getName(): string
     {
@@ -52,13 +50,6 @@ class Task
     #endregion
 
     #region SETTER
-    public function setId(int $id){
-        if($id<=0){
-            throw new Exception("Task\'s Id can\'t be lower than zero");
-        }
-        $this->id = $id;
-    }
-    
     public function setName(string $name)
     {
         if ($name === "") {
@@ -82,6 +73,16 @@ class Task
         $this->description = $description;
 
     }
+
+    public function makeSlug()
+    {
+        $text = $this->name;
+        $text = strtolower(trim($text));
+        $text = preg_replace('/[^a-z0-9\s-]/', '', $text);
+        $text = preg_replace('/\s+/', '-', $text);
+        $text = preg_replace('/-+/', '-', $text);
+        $this->slug = $text;
+    }
     #endregion
 
     #region UTILS
@@ -89,6 +90,7 @@ class Task
     {
         $array = [];
         $array['name'] = $this->name;
+        $array['slug'] = $this->slug;
         $array['address'] = $this->address;
         $array['description'] = $this->description;
         return $array;

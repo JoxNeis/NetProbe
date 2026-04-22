@@ -26,9 +26,9 @@ class HttpTask extends Task
     #endregion
 
     #region CONSTRUCTOR
-    public function __construct(int $id, string $name, string $address, string $description, HttpRequestMethod $method)
+    public function __construct(string $name, string $address, string $description, HttpRequestMethod $method)
     {
-        parent::__construct($id, $name, $address, $description);
+        parent::__construct($name, $address, $description);
         $this->setMethod($method);
         $this->headers = new HttpHeaderHolder();
         $this->queries = new HttpQueryHolder();
@@ -99,15 +99,15 @@ class HttpTask extends Task
     #region UTILS
     public function toArray(): array
     {
-        return [
-            "id" => $this->getId(),
-            "name" => $this->getName(),
-            "address" => $this->getAddress(),
-            "description" => $this->getDescription(),
-            "headers" => $this->headers->toArray(),
-            "queries" => $this->queries->toArray(),
-            "bodies" => $this->bodies->toArray(),
-        ];
+        return array_merge(
+            parent::toArray(),
+            [
+                "headers" => $this->headers->toArray(),
+                "queries" => $this->queries->toArray(),
+                "bodies" => $this->bodies->toArray(),
+            ]
+        );
     }
+
     #endregion
 }

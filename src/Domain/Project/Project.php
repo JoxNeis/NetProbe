@@ -10,32 +10,27 @@ use DateTime;
 class Project
 {
     #region FIELDS
-
-    private ?int $id = null;
     private string $name;
     private string $slug;
     private ?string $description = null;
     private DateTime $createdAt;
     private ?DateTime $lastAccessedAt = null;
-    private ?string $address = null;
     private array $tasks = [];
 
     #endregion
 
-    public function __construct(int $id, string $name, string $description)
+    public function __construct(string $name, string $description,DateTime $createdAt = null)
     {
-        $this->setId($id);
         $this->setName($name);
         $this->setDescription($description);
         $this->makeSlug();
-        $this->createdAt = new DateTime();
+        if($createdAt) 
+            $this->createdAt = $createdAt;
+        else
+            $this->createdAt = new DateTime();
     }
 
     #region GETTERS
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
     public function getName(): string
     {
         return $this->name;
@@ -58,19 +53,9 @@ class Project
     {
         return $this->lastAccessedAt;
     }
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
     #endregion
 
     #region SETTER
-    public function setId(?int $id): self
-    {
-        $this->id = $id;
-        return $this;
-    }
-
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -100,13 +85,6 @@ class Project
     public function setLastAccessedAt(?DateTime $lastAccessedAt): self
     {
         $this->lastAccessedAt = $lastAccessedAt;
-        return $this;
-    }
-
-
-    public function setAddress(?string $address): self
-    {
-        $this->address = $address;
         return $this;
     }
 
@@ -141,8 +119,24 @@ class Project
         $this->slug = $text;
     }
 
-    public function toArray(){
-        
+    public function toArray(): array
+    {
+        $array = [];
+        $array["name"] = $this->name;
+        $array["slug"] = $this->slug;
+        $array["description"] = $this->description;
+        $array["created_at"] = $this->createdAt;
+        $array["description"] = $this->description;
+        $array["tasks"] = [];
+        foreach ($this->tasks as $task) {
+            $array["tasks"][] = $task->toArray();
+        }
+        return $array;
+    }
+
+    public static function fromArray(array $array):self
+    {
+        return new self($array['name'],$array['description']);
     }
     #endregion
 }

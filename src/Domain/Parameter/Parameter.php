@@ -24,7 +24,6 @@ class Parameter
     private mixed $key;
     private mixed $value;
     private DataType $type;
-    /** @var TransformStep[] */
     private array $steps;
     #endregion
 
@@ -71,8 +70,8 @@ class Parameter
             $type = $step->getType();
 
             $result = match (true) {
-                $type instanceof EncodeType  => EncoderFactory::create($type)->encode($result),
-                $type instanceof HashType    => HasherFactory::create($type)->hash($result),
+                $type instanceof EncodeType => EncoderFactory::create($type)->encode($result),
+                $type instanceof HashType => HasherFactory::create($type)->hash($result),
                 $type instanceof EncryptType => EncryptorFactory::create($type)->encrypt($result, $step->getEncryptionKey()),
             };
         }
@@ -106,25 +105,34 @@ class Parameter
     public function setSteps(array $steps): void
     {
         foreach ($steps as $step) {
-            if (!($step instanceof TransformStep)) {
-                throw new \InvalidArgumentException(
-                    "Each step must be an instance of TransformStep."
-                );
-            }
+            $this->addStep($step);
         }
-        $this->steps = $steps;
+    }
+
+    public function addStep(TransformStep $step)
+    {
+        if (!($step instanceof TransformStep)) {
+            throw new \InvalidArgumentException(
+                "Each step must be an instance of TransformStep."
+            );
+        }
+        $this->steps[] = $step;
     }
     #endregion
 
     #region UTILS
     public function toArray(): array
     {
-        return [
-            "key"           => $this->getKey(),
-            "value"         => $this->getValue(),
-            "modifiedValue" => empty($this->steps) ? null : $this->getModifiedValue(),
-            "type"          => $this->getDataType()->value,
+        $array = [
+            "key" => $this->getKey(),
+            "value" => $this->getValue(),
+            "type" => $this->getDataType()->value
         ];
+        $array["steps"] = [];
+        foreach ($this->steps as $step) {
+            $array["steps"][] = $step->toArray();
+        }
+        return $array;
     }
     #endregion
 }

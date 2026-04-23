@@ -17,6 +17,7 @@ use Task\HttpTask;
 use Request\HttpRequest;
 use ValueObject\DataType;
 use ValueObject\HttpHeaderCategory;
+use ValueObject\Http\HttpBodyType;
 
 class HttpRequestBuilder
 {
@@ -62,17 +63,28 @@ class HttpRequestBuilder
         }
         return http_build_query($queryArray);
     }
-    public function createBodies(): array
+    public function createBodies(): string|array
     {
+        $contentTypeParam = $this->headers->getParameters()[HttpHeaderCategory::CONTENT_TYPE->value] ?? null;
+        $bodyType = $contentTypeParam?->getValue();
+
         $data = [];
         foreach ($this->bodies->getParameters() as $parameter) {
-            if ($parameter->getType() === DataType::FILE && $this->headers->getParameters()[HttpHeaderCategory::CONTENT_TYPE->value]->getValue()->isBinary()) {
-                $data[$parameter->getKey()] = new CURLFile($parameter->getValue());
+            $key = $parameter->getKey();
+
+            if ($parameter->getDataType() === DataType::FILE) {
+                $data[$key] = new CURLFile($parameter->getValue());
             } else {
-                $data[$parameter->getKey()] = $parameter->getModifiedValue();
+                $data[$key] = $parameter->getModifiedValue();
             }
         }
-        return $data;
+
+        return match (true) {
+            $bodyType === HttpBodyType::FORM_MULTIPART => $data,          
+            $bodyType === HttpBodyType::JSON => json_encode($data, JSON_UNESCAPED_UNICODE),
+            $bodyType === HttpBodyType::FORM_URLENCODED => http_build_query($data),
+            default => $data,          
+        };
     }
     #endregion
 }

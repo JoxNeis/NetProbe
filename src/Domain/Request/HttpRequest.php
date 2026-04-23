@@ -10,7 +10,7 @@ class HttpRequest
     private string $address;
     private HttpRequestMethod $method;
     private array  $headers;
-    private array  $body;
+    private array|string  $body;
     private string $queryString;
     #endregion
 
@@ -19,7 +19,7 @@ class HttpRequest
         string $address,
         HttpRequestMethod $method,
         array  $headers,
-        array  $body,
+        array|string  $body,
         string $queryString
     ) {
         $this->address         = $address;
@@ -46,7 +46,7 @@ class HttpRequest
         return $this->headers;
     }
 
-    public function getBody(): array
+    public function getBody(): array|string
     {
         return $this->body;
     }

@@ -112,7 +112,7 @@ class HttpRequestRunner
         curl_setopt($ch, CURLOPT_POST, true);
         $body = $request->getBody();
         if (!empty($body)) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $this->serializeBody($body));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
         }
     }
 
@@ -121,8 +121,7 @@ class HttpRequestRunner
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
         $body = $request->getBody();
         if (!empty($body)) {
-            $serialized = $this->serializeBody($body);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $serialized);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
         }
     }
 
@@ -131,7 +130,7 @@ class HttpRequestRunner
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
         $body = $request->getBody();
         if (!empty($body)) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $this->serializeBody($body));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
         }
     }
 
@@ -140,31 +139,15 @@ class HttpRequestRunner
         HttpRequestMethod $method,
         HttpRequest $request
     ): void {
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method->value);
         $body = $request->getBody();
         if (!empty($body)) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $this->serializeBody($body));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
         }
     }
 
-    /**
-     * Decide whether to send as JSON or form-encoded.
-     * If all values are scalar the body is form-encoded; otherwise JSON.
-     */
-    private function serializeBody(array $body): string
-    {
-        $allScalar = array_reduce(
-            $body,
-            fn(bool $carry, mixed $v) => $carry && is_scalar($v),
-            true
-        );
 
-        return $allScalar
-            ? http_build_query($body)
-            : json_encode($body, JSON_UNESCAPED_UNICODE);
-    }
-
-    private function execute(\CurlHandle $ch): HttpResponse
+    private function execute(CurlHandle $ch): HttpResponse
     {
         $raw = curl_exec($ch);
 
@@ -178,7 +161,7 @@ class HttpRequestRunner
         $headerSize = $info['header_size'];
         $rawHeaders = substr($raw, 0, $headerSize);
         $body = substr($raw, $headerSize);
-        return new HttpResponse($info['http_code'],$this->parseHeaders($rawHeaders),$body,$info);
+        return new HttpResponse($info['http_code'], $this->parseHeaders($rawHeaders), $body, $info);
     }
 
     private function parseHeaders(string $raw): array

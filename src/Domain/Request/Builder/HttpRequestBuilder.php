@@ -6,17 +6,17 @@ use CURLFile;
 
 require_once(__DIR__ . "/../HttpRequest.php");
 require_once(__DIR__ . "/../../Task/HttpTask.php");
-require_once(__DIR__ . "/../../ValueObject/EncodeType.php");
 require_once(__DIR__ . "/../../ValueObject/DataType.php");
 require_once(__DIR__ . "/../../ValueObject/HttpRequestMethod.php");
 
+use UnitEnum;
 use Parameter\HttpHolder\HttpHeaderHolder;
 use Parameter\HttpHolder\HttpBodyHolder;
 use Parameter\HttpHolder\HttpQueryHolder;
 use Task\HttpTask;
 use Request\HttpRequest;
 use ValueObject\DataType;
-use ValueObject\HttpHeaderCategory;
+use ValueObject\Http\HttpHeaderCategory;
 use ValueObject\Http\HttpBodyType;
 
 class HttpRequestBuilder
@@ -46,10 +46,11 @@ class HttpRequestBuilder
     {
         $header = [];
         foreach ($this->headers->getParameters() as $parameter) {
+            $val = $parameter->getValue();
             $header[] =
                 $parameter->getKey()->value .
                 ": " .
-                $parameter->getValue();
+                ($val instanceof UnitEnum ? $val->value : $val);
         }
         return $header;
     }
@@ -59,7 +60,7 @@ class HttpRequestBuilder
         foreach ($this->queries->getParameters() as $parameter) {
             $queryArray[
                 $parameter->getKey()
-            ] = $parameter->getValue();
+            ] = $parameter->getModifiedValue();
         }
         return http_build_query($queryArray);
     }
@@ -80,10 +81,10 @@ class HttpRequestBuilder
         }
 
         return match (true) {
-            $bodyType === HttpBodyType::FORM_MULTIPART => $data,          
+            $bodyType === HttpBodyType::FORM_MULTIPART => $data,
             $bodyType === HttpBodyType::JSON => json_encode($data, JSON_UNESCAPED_UNICODE),
             $bodyType === HttpBodyType::FORM_URLENCODED => http_build_query($data),
-            default => $data,          
+            default => $data,
         };
     }
     #endregion

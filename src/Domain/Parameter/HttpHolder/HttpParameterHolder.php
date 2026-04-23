@@ -36,7 +36,11 @@ class HttpParameterHolder
 
     public function addParameter(Parameter $parameter): void
     {
-        $this->parameters[$parameter->getKey()] = $parameter;
+        if ($parameter->getKey() instanceof \UnitEnum) {
+            $this->parameters[$parameter->getKey()->value] = $parameter;
+        } else {
+            $this->parameters[] = $parameter;
+        }
     }
     #endregion
 

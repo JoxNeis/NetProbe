@@ -3,10 +3,11 @@
 namespace Parameter;
 
 require_once(__DIR__ . "/../ValueObject/DataType.php");
+require_once(__DIR__ . "/../Transformer/Transformer.php");
 require_once(__DIR__ . "/../Transformer/Encoder/EncoderFactory.php");
 require_once(__DIR__ . "/../Transformer/Hasher/HasherFactory.php");
 require_once(__DIR__ . "/../Transformer/Encryptor/EncryptorFactory.php");
-require_once(__DIR__ . "/TransformStep.php");
+require_once(__DIR__ . "/../Transformer/TransformStep.php");
 
 use Exception;
 use ValueObject\DataType;
@@ -24,7 +25,7 @@ class Parameter
     private mixed $key;
     private mixed $value;
     private DataType $type;
-    private array $steps;
+    private array $steps = [];
     #endregion
 
     #region CONSTRUCTOR

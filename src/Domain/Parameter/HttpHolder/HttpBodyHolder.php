@@ -3,12 +3,10 @@
 namespace Parameter\HttpHolder;
 
 require_once(__DIR__ . "/HttpParameterHolder.php");
-require_once(__DIR__ . "/../../ValueObject/EncodeType.php");
 
 use InvalidArgumentException;
 use Parameter\Parameter;
 use Parameter\HttpHolder\HttpParameterHolder;
-use ValueObject\EncodeType;
 
 class HttpBodyHolder extends HttpParameterHolder
 {

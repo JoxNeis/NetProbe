@@ -1,4 +1,15 @@
+<div align="center">
+
 # NetProbe
+
+```
+███╗   ██╗███████╗████████╗██████╗ ██████╗  ██████╗ ██████╗ ███████╗
+████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔═══██╗██╔══██╗██╔════╝
+██╔██╗ ██║█████╗     ██║   ██████╔╝██████╔╝██║   ██║██████╔╝█████╗  
+██║╚██╗██║██╔══╝     ██║   ██╔═══╝ ██╔══██╗██║   ██║██╔══██╗██╔══╝  
+██║ ╚████║███████╗   ██║   ██║     ██║  ██║╚██████╔╝██████╔╝███████╗
+╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝
+```
 
 [![PHP](https://img.shields.io/badge/PHP-8.1+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
 [![cURL](https://img.shields.io/badge/cURL-Transport-073551?style=for-the-badge&logo=curl&logoColor=white)](https://curl.se/)
@@ -6,11 +17,12 @@
 [![License](https://img.shields.io/badge/License-MIT-22C55E?style=for-the-badge)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-F97316?style=for-the-badge)](CONTRIBUTING.md)
 
+</div>
+
 A clean, object-oriented PHP library for building and executing HTTP requests. Designed around separation of concerns — domain objects stay pure, infrastructure (cURL) stays isolated, and a builder layer wires them together.
 
----
-
 ## Architecture
+
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │                        Your Code                             │
@@ -235,8 +247,6 @@ $param = new Parameter(
 $param->getModifiedValue(); // base64(sha256("secret"))
 ```
 
----
-
 ## Transformers
 
 ### Encoders (`EncodeType`)
@@ -273,8 +283,6 @@ SHA-2 family (256, 384, 512), SHA-3 family (224, 256, 384, 512), BLAKE2b, BLAKE2
 
 GCM and ChaCha20 ciphers output in the format `base64(IV . tag . ciphertext)`. CBC ciphers output `base64(IV . ciphertext)`.
 
----
-
 ## Projects & Tasks
 
 `Project` is a named container that groups multiple `Task` objects together.
@@ -285,8 +293,6 @@ $project->addTask($task);
 
 $array = $project->toArray(); // Serializable snapshot
 ```
-
----
 
 ## Requirements
 
